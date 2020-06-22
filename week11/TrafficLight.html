@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+</html>
+<style>
+    #app {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: start;
+    }
+
+    .circle-item {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        margin-right: 20px;
+        background-color: #777777;
+    }
+
+    .red {
+        background-color: red;
+    }
+
+    .yellow {
+        background-color: yellow;
+    }
+
+    .green {
+        background-color: green;
+    }
+</style>
+<body>
+    <div id="app">
+        <div class="circle-item" :class="currentStatus === 1 ? 'red' : ''"></div>
+        <div class="circle-item" :class="currentStatus === 2 ? 'yellow' : ''"></div>
+        <div class="circle-item" :class="currentStatus === 3 ? 'green' : ''"></div>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script type="application/javascript">
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                currentStatus: 0 // 1 red 2 yellow 3 green
+            }
+        },
+        mounted() {
+            this.init()
+        },
+        methods: {
+            setColor(status) {
+                this.currentStatus = status; 
+            },
+            async init() {
+                this.setColor(1);
+                while (true) {
+                    await this.sleep(3 * 1000);
+                    this.setColor(2);
+                    await this.sleep(2 * 1000);
+                    this.setColor(3);
+                    await this.sleep(1 * 1000);
+                    this.setColor(1);
+                }
+            },
+            sleep(time) {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        resolve()
+                    }, time)
+                })
+            }
+        }
+    })
+</script>
